@@ -3,4 +3,214 @@
 *:before,
 *:after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-color: #00ADB5;
+  --secondary-color: #1c1e21
+}
+
+body {
+  background-image: url('/images/site/checkerboard.jpg');
+
+  font-family: "Oswald", sans-serif;
+  overflow-x: hidden;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+/************* NAVIGATION *******************/
+nav {
+  font-family: "Bricolage Grotesque", sans-serif;
+  background-color: var(--secondary-color);
+  margin: 0 10px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 10px;
+}
+
+nav ul li {
+  list-style: none;
+  color: white;
+  font-size: 1.2rem;
+}
+
+/************* BODY WRAPPER *******************/
+
+.wrapper {
+  background-color: white;
+  border: 6px solid var(--primary-color);
+}
+
+/************* TOP HEADER *******************/
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+
+#top-header a {
+  text-decoration: none;
+  color: var(--secondary-color)
+}
+
+.siteName,
+#tools {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+#tools {
+  font-weight: 400;
+}
+
+/********* HERO BANNER ******/
+.hero-welcome {
+  background-image: url('/images/vehicles/delorean.jpg');
+  width: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: scroll;
+  padding: 15px;
+  position: relative;
+}
+
+.info {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  color: var(--primary-color);
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  max-width: 200px;
+}
+
+.info h2 {
+  font-size: 1.7rem;
+}
+
+.info button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/****************** FEATURES ***************/
+.features {
+  display: grid;
+  padding: 20px;
+}
+
+.upgrades {
+  order: 1;
+}
+
+.reviews {
+  padding: 20px;
+}
+
+.reviews h3 {
+  font-size: 1.6rem;
+  margin-block: 10px;
+}
+
+.reviews ul {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+/************** UPGRADES ***********************/
+
+.upgrades h3 {
+  font-size: 1.6rem;
+  margin-block: 10px;
+}
+
+.display {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 15px;
+}
+
+.image-wrapper {
+  text-align: center;
+}
+
+.upgrade {
+  background-color: var(--primary-color);
+  padding: 20px;
+  border: 2px solid #333;
+}
+
+.upgrade img {
+  height: 50px;
+}
+
+.copyright {
+  padding: 20px;
+}
+
+
+@media screen and (min-width: 768px) {
+  .wrapper {
+    margin: 20px;
+    border-radius: 6px;
+  }
+
+  .hero-welcome {
+    padding: 50px 60px;
+    min-height: 400px;
+  }
+
+  .hero-welcome h1 {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+  }
+
+  .info h2 {
+    font-size: 2rem;
+  }
+
+  .features {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .upgrades {
+    order: unset;
+  }
+
+  .reviews ul {
+    gap: 3rem;
+  }
+
+  .upgrade img {
+    height: 100px;
+  }
+
+  .info-btn {
+    width: 40%;
+  }
 }
