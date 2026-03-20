@@ -26,6 +26,7 @@ app.set("layout", "./layouts/layout")
 // app.use(static)
 app.use(require("./routes/static"))
 app.use(require("./routes/inventoryRoute"))
+app.use(require("./routes/errorRoute"))
 
 app.get('/', utilities.handleErrors(baseController.buildHome))
 
