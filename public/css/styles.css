@@ -22,6 +22,9 @@ body {
 }
 
 
+main {
+  padding: 20px
+}
 
 /************* NAVIGATION *******************/
 nav {
@@ -72,6 +75,12 @@ nav ul li {
 
 #tools {
   font-weight: 400;
+}
+
+
+.wrapper nav a {
+  color: white;
+  text-decoration: none;
 }
 
 /********* HERO BANNER ******/
@@ -167,6 +176,77 @@ nav ul li {
   padding: 20px;
 }
 
+/******************* INVENTORY *********************************/
+/* Grid container */
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Each item */
+#inv-display li {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  transition: 0.2s ease;
+}
+
+#inv-display li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Image */
+#inv-display img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Link styling */
+#inv-display a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Name + Price */
+.namePrice {
+  margin-top: 10px;
+}
+
+.namePrice hr {
+  margin: 10px 0;
+}
+
+.namePrice h2 {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.namePrice span {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 900px) {
+  #inv-display {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 600px) {
+  #inv-display {
+    grid-template-columns: 1fr;
+  }
+}
 
 @media screen and (min-width: 768px) {
   .wrapper {
@@ -215,4 +295,6 @@ nav ul li {
   .info-btn {
     width: 40%;
   }
+
+
 }
