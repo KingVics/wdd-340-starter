@@ -1,0 +1,25 @@
+<div class="account-container">
+    <% if (title) { %>
+        <div>
+            <h1><%= title %></h1>
+            <%- messages() %>
+        </div>
+    <% } %>
+   
+
+    <div class="form-box">
+      <form>
+        <label>Email:</label>
+        <input type="email" placeholder="" required>
+
+        <label>Password:</label>
+        <input type="password" placeholder="" required>
+
+        <button type="submit">LOGIN</button>
+
+        <p class="signup-text">
+          No account? <a href="/account/register">Sign-up</a>
+        </p>
+      </form>
+    </div>
+  </div>
