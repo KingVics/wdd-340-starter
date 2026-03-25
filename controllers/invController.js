@@ -115,7 +115,7 @@ invCont.buildAddInventory = async function (req, res, next) {
 
 invCont.buildAddInventoryPost = async function (req, res, next) {
     let nav = await utilities.getNav()
-    const dropdown = await utilities.buildClassificationList()
+    const dropdown = await utilities.buildClassificationList(req.body.classification_id)
 
     const result = await invModel.addNewVehicle(req.body)
     if (result) {

@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const field = fields[key];
 
         if (!field) {
-            console.warn(`${key} field not found in DOM`);
             return;
         }
 
