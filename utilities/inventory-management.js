@@ -104,8 +104,7 @@ validate.checkAddNewVehicleData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
-        const dropdown = await utilities.buildClassificationList()
-
+        const dropdown = await utilities.buildClassificationList(req.body.classification_id)
         res.render("./inventory/management/addInventory", {
             errors,
             title: "Add New Vehicle",

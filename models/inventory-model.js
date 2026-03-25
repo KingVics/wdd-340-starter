@@ -78,7 +78,6 @@ async function addNewVehicle({ inv_make, inv_model, inv_year, inv_description,
       inv_color,
       parseInt(classification_id)])
   } catch (error) {
-    console.log(error, 'err')
     return error.message
   }
 }
