@@ -1,0 +1,19 @@
+<section class="">
+     <% if (title) { %>
+        <div>
+            <h1><%= title %></h1>
+            <%- messages() %>
+        </div>
+    <% } %>
+    <% if (errors) { %>
+        <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <%  }) %>
+        </ul>
+        <% } %>
+    <div class="info">
+        <a href="/inv/addClassification">Add New Classification</a>
+        <a href="/inv/addInventory">Add New Vehicle</a>
+    </div>
+</section>

@@ -1,0 +1,30 @@
+
+<div class="account-container">
+    <% if (title) { %>
+    <h1><%= title %></h1>
+    <% } %>
+    <% if (errors) { %>
+        <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <%  }) %>
+        </ul>
+        <% } %>
+  <div class="form-box">
+    <p class="required">Field is required.</p>
+
+    <form id="classificationForm" action="/inv/addClassification" method="post">
+      <label for="classification_name">Classification Name</label>
+      <p class="hint">Name must be alphanumeric characters only.</p>
+
+      <input 
+        type="text" 
+        id="classification_name" 
+        name="classification_name"
+        required
+      >
+
+      <button type="submit">Add Classification</button>
+    </form>
+  </div>
+</div>

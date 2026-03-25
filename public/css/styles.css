@@ -330,7 +330,6 @@ nav ul li {
 
 .form-box button {
   display: block;
-  width: 120px;
   margin: 0 auto 20px auto;
   padding: 10px;
   border: none;
@@ -437,11 +436,91 @@ nav ul li {
 }
 
 
+.notice {
+  padding: 20px;
+}
 
 .notice li {
   color: red;
   font-weight: 500;
 
+}
+
+
+/************** INVENTORY MANAGEMENT ***************************/
+
+
+.required {
+  font-size: 12px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.hint {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.form-container {
+  width: 60%;
+  margin: 0px auto;
+  background: var(--secondary-color);
+  padding: 20px;
+  border-radius: 6px;
+  color: #fff;
+}
+
+h2 {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.form-container label {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.form-container input,
+.form-container textarea,
+.form-container select {
+  width: 100%;
+  padding: 6px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 3px;
+}
+
+.form-container textarea {
+  height: 60px;
+}
+
+.form-container button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #555;
+}
+
+/* Validation styles */
+input.error,
+textarea.error,
+select.error {
+  border: 2px solid red;
+}
+
+input.success,
+textarea.success,
+select.success {
+  border: 2px solid green;
 }
 
 /* Responsive: stack on mobile */
