@@ -14,6 +14,7 @@ const bodyParser = require("body-parser")
 const layout = require("express-ejs-layouts")
 const baseController = require("./controllers/baseController")
 const utilities = require("./utilities")
+const cookieParser = require("cookie-parser")
 
 
 
@@ -45,7 +46,11 @@ app.use(function (req, res, next) {
 })
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true })) 
+app.use(cookieParser())
+
+
+app.use(utilities.checkJWTToken)
 
 
 /* ***********************
@@ -53,7 +58,7 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
  *************************/
 // app.use(static)
 app.use(require("./routes/static"))
-app.use(require("./routes/inventoryRoute"))
+app.use("/inv", require("./routes/inventoryRoute"))
 app.use(require("./routes/errorRoute"))
 app.use('/account', require("./routes/accountRoute"))
 

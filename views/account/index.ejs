@@ -13,13 +13,6 @@
         </ul>
         <% } %>
     <div class="info">
-        <a href="/inv/addClassification">Add New Classification</a>
-        <a href="/inv/addInventory">Add New Vehicle</a>
+        <p>You are logged in as <%= accountData.account_firstname %> <%= accountData.account_lastname %></p>
     </div>
-    <h2>Manage Inventory</h2>
-    <%- classificationList %>
-    <table id="inventoryDisplay"></table>
-    <noscript>JavaScript must be enabled to use this page.</noscript>
 </section>
-
-<script src="../../js/inventory.js"></script>

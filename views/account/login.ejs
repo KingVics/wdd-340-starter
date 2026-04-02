@@ -5,15 +5,21 @@
             <%- messages() %>
         </div>
     <% } %>
-   
+   <% if (errors) { %>
+        <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <%  }) %>
+        </ul>
+        <% } %>
 
     <div class="form-box">
-      <form>
-        <label>Email:</label>
-        <input type="email" placeholder="" required>
+      <form id="loginForm" action="/account/login" method="post">
+        <label for="account_email">Email:</label>
+        <input type="email" placeholder="" required name="account_email" id="account_email">
 
-        <label>Password:</label>
-        <input type="password" placeholder="" required>
+        <label for="account_password">Password:</label>
+        <input type="password" placeholder="" required name="account_password" id="account_password">
 
         <button type="submit">LOGIN</button>
 
