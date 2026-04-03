@@ -139,6 +139,8 @@ Util.handleErrors = fn => async (req, res, next) => Promise.resolve(fn(req, res,
 * Middleware to check token validity
 **************************************** */
 Util.checkJWTToken = (req, res, next) => {
+    res.locals.loggedin = false
+    res.locals.accountData = null
     if (req.cookies.jwt) {
         jwt.verify(
             req.cookies.jwt,
@@ -150,7 +152,7 @@ Util.checkJWTToken = (req, res, next) => {
                     return res.redirect("/account/login")
                 }
                 res.locals.accountData = accountData
-                res.locals.loggedin = 1
+                res.locals.loggedin = true
                 next()
             })
     } else {
@@ -169,5 +171,24 @@ Util.checkLogin = (req, res, next) => {
         req.flash("notice", "Please log in.")
         return res.redirect("/account/login")
     }
+}
+
+/* ****************************************
+ *  Check Role
+ * ************************************ */
+Util.checkRole = (req, res, next) => {
+    if (!res.locals.loggedin || !res.locals.accountData) {
+        req.flash("notice", "Please log in.")
+        return res.redirect("/account/login")
+    }
+
+    const role = res.locals.accountData.account_role
+
+    if (role === "Employee" || role === "Admin") {
+        return next()
+    }
+
+    req.flash("notice", "You do not have permission to access this page.")
+    return res.redirect("/account/login")
 }
 module.exports = Util

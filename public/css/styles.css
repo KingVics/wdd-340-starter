@@ -75,7 +75,9 @@ nav ul li {
 
 #tools {
   font-weight: 400;
+  font-size: 1.2rem;
 }
+
 
 
 .wrapper nav a {
@@ -446,6 +448,34 @@ nav ul li {
 
 }
 
+.account-inventory {
+  margin-top: 20px;
+}
+
+.account-header {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.form-info {
+  font-size: 14px;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+#tools .logout {
+  background-color: var(--primary-color);
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+#tools  .logout .logout-btn {
+  color: var(--secondary-color);
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+}
 
 /************** INVENTORY MANAGEMENT ***************************/
 

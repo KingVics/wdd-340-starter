@@ -12,12 +12,15 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildByClassificationDetailsById));
 
 // Route to build inventory classification management view 
-router.get("/", utilities.handleErrors(invController.buildClassificationManagement));
+router.get("/",
+    utilities.checkRole,
+    utilities.handleErrors(invController.buildClassificationManagement));
 
 
 // Route to build add classification view 
 router.get("/addClassification", utilities.handleErrors(invController.buildAddClassification));
 router.post("/addClassification",
+    utilities.checkRole,
     validator.addClassificationRule(),
     validator.checkClassificationData,
     utilities.handleErrors(invController.buildAddClassificationPost));
@@ -27,6 +30,7 @@ router.post("/addClassification",
 // Route to build add inventory view 
 router.get("/addInventory", utilities.handleErrors(invController.buildAddInventory));
 router.post("/addInventory",
+    utilities.checkRole,
     validator.addNewVehicleRule(),
     validator.checkAddNewVehicleData,
     utilities.handleErrors(invController.buildAddInventoryPost));
@@ -38,6 +42,7 @@ router.get("/getInventory/:classification_id", utilities.handleErrors(invControl
 
 router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventory));
 router.post("/update",
+    utilities.checkRole,
     validator.updateVehicleRule(),
     validator.checkUpdateData,
     utilities.handleErrors(invController.updateInventory));
