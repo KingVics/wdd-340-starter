@@ -2,6 +2,16 @@
     <span class="siteName">
         <a href="/" title="Return to home page">CSE Motors</a>
     </span>
+    <form class="header-search" method="get" action="/inv/search">
+        <label class="search-label" for="site-search">Search inventory</label>
+        <input
+            id="site-search"
+            name="keyword"
+            type="search"
+            placeholder="Search inventory"
+            aria-label="Search inventory"
+        />
+    </form>
     <div id="tools">
         <% if (loggedin) { %>
         <p>Welcome Back</p>

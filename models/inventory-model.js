@@ -44,7 +44,6 @@ async function getInventoryByInventoryId(inventory_id) {
   }
 }
 
-
 /* *****************************
 *   Create new Classification
 * *************************** */
@@ -120,11 +119,108 @@ async function updateInventory(
     console.error("model error: " + error)
   }
 }
+
+
+
+/* ***************************
+ *  Get a small inventory snapshot for discovery views
+ * ************************** */
+async function getInventorySnapshot(limit = 6) {
+  try {
+    const data = await pool.query(
+      `SELECT i.*, c.classification_name
+       FROM public.inventory AS i
+       JOIN public.classification AS c
+       ON i.classification_id = c.classification_id
+       ORDER BY i.inv_year DESC, i.inv_price ASC
+       LIMIT $1`,
+      [limit]
+    )
+    return data.rows
+  } catch (error) {
+    console.error("getInventorySnapshot error " + error)
+    return []
+  }
+}
+
+/* ***************************
+ *  Search inventory with optional filters
+ * ************************** */
+async function searchInventory(filters = {}) {
+  try {
+    const conditions = []
+    const values = []
+    const keyword = filters.keyword ? `%${filters.keyword.toLowerCase()}%` : null
+
+    if (keyword) {
+      const placeholderStart = values.length + 1
+      values.push(keyword, keyword, keyword, keyword)
+      conditions.push(
+        `(LOWER(i.inv_make) LIKE $${placeholderStart} OR LOWER(i.inv_model) LIKE $${placeholderStart + 1} OR LOWER(i.inv_description) LIKE $${placeholderStart + 2} OR LOWER(c.classification_name) LIKE $${placeholderStart + 3})`
+      )
+    }
+
+    if (filters.classification) {
+      values.push(parseInt(filters.classification))
+      conditions.push(`i.classification_id = $${values.length}`)
+    }
+
+    if (filters.minPrice) {
+      values.push(parseFloat(filters.minPrice))
+      conditions.push(`i.inv_price >= $${values.length}`)
+    }
+
+    if (filters.maxPrice) {
+      values.push(parseFloat(filters.maxPrice))
+      conditions.push(`i.inv_price <= $${values.length}`)
+    }
+
+    if (filters.minYear) {
+      values.push(parseInt(filters.minYear))
+      conditions.push(`i.inv_year >= $${values.length}`)
+    }
+
+    if (filters.maxMiles) {
+      values.push(parseInt(filters.maxMiles))
+      conditions.push(`i.inv_miles <= $${values.length}`)
+    }
+
+    const sortMap = {
+      "price-asc": "i.inv_price ASC",
+      "price-desc": "i.inv_price DESC",
+      "year-desc": "i.inv_year DESC, i.inv_price ASC",
+      "miles-asc": "i.inv_miles ASC, i.inv_price ASC",
+    }
+
+    const orderBy = sortMap[filters.sort] || sortMap["price-asc"]
+
+    let sql = `SELECT i.*, c.classification_name
+      FROM public.inventory AS i
+      JOIN public.classification AS c
+      ON i.classification_id = c.classification_id`
+
+    if (conditions.length) {
+      sql += ` WHERE ${conditions.join(" AND ")}`
+    }
+
+    sql += ` ORDER BY ${orderBy}`
+
+    const data = await pool.query(sql, values)
+    return data.rows
+  } catch (error) {
+    console.error("searchInventory error " + error)
+    return []
+  }
+}
+
+
 module.exports = {
   createClassification,
   getClassifications,
   getInventoryByClassificationId,
   getInventoryByInventoryId,
+  getInventorySnapshot,
+  searchInventory,
   addNewVehicle,
   updateInventory
 }

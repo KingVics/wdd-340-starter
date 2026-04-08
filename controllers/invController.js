@@ -36,7 +36,6 @@ invCont.buildByClassificationDetailsById = async function (req, res, next) {
     })
 }
 
-
 /* ***************************
  *  Build inventory by classification detials view
  * ************************** */
@@ -235,5 +234,37 @@ invCont.updateInventory = async function (req, res, next) {
         })
     }
 }
+
+
+/* ***************************
+ *  Build inventory search view
+ * ************************** */
+invCont.buildSearchView = async function (req, res, next) {
+    const nav = await utilities.getNav()
+    const classificationData = await invModel.getClassifications()
+    const filters = {
+        keyword: req.query.keyword || "",
+        classification: req.query.classification || "",
+        minPrice: req.query.minPrice || "",
+        maxPrice: req.query.maxPrice || "",
+        minYear: req.query.minYear || "",
+        maxMiles: req.query.maxMiles || "",
+        sort: req.query.sort || "price-asc",
+    }
+    const searchResults = await invModel.searchInventory(filters)
+    const hasActiveFilters = Object.entries(filters).some(([key, value]) => key !== "sort" && value !== "")
+
+    res.render("./inventory/search", {
+        title: "Search Inventory",
+        nav,
+        errors: null,
+        classifications: classificationData.rows,
+        searchResults,
+        resultsCount: searchResults.length,
+        hasActiveFilters,
+        filters,
+    })
+}
+
 
 module.exports = invCont
