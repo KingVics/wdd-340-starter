@@ -3,6 +3,14 @@ const utilities = require("../utilities/")
 
 const invCont = {}
 
+function formatSearchKeyword(keyword = "") {
+    if (keyword.length <= 24) {
+        return keyword
+    }
+
+    return `${keyword.slice(0, 24)}...`
+}
+
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
@@ -262,6 +270,7 @@ invCont.buildSearchView = async function (req, res, next) {
         searchResults,
         resultsCount: searchResults.length,
         hasActiveFilters,
+        displayKeyword: formatSearchKeyword(filters.keyword),
         filters,
     })
 }

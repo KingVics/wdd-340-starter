@@ -21,6 +21,14 @@
 
     <%- messages() %>
 
+    <% if (errors && errors.array().length) { %>
+        <ul class="notice">
+            <% errors.array().forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
     <section class="search-layout">
         <aside class="search-panel">
             <h2>Filters</h2>
@@ -30,6 +38,7 @@
                     type="search"
                     id="keyword"
                     name="keyword"
+                    maxlength="40"
                     value="<%= filters.keyword %>"
                     placeholder="Delorean, SUV, luxury..."
                 />
@@ -91,7 +100,7 @@
                     <p class="results-summary">
                         <%= resultsCount %> vehicle<%= resultsCount === 1 ? "" : "s" %> found
                         <% if (filters.keyword) { %>
-                            for "<%= filters.keyword %>"
+                            for <span class="keyword-chip">"<%= displayKeyword %>"</span>
                         <% } %>
                     </p>
                 </div>

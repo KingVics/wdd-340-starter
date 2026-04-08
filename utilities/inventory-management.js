@@ -1,6 +1,15 @@
 const utilities = require(".")
-const { body, validationResult } = require("express-validator")
+const invModel = require("../models/inventory-model")
+const { body, query, validationResult } = require("express-validator")
 const validate = {}
+
+function formatSearchKeyword(keyword = "") {
+    if (keyword.length <= 24) {
+        return keyword
+    }
+
+    return `${keyword.slice(0, 24)}...`
+}
 
 
 /*  **********************************
@@ -197,6 +206,97 @@ validate.checkUpdateData = async (req, res, next) => {
             ...req.body
         })
         return
+    }
+
+    next()
+}
+
+/*  **********************************
+  *  Validate Search Filters
+  * ********************************* */
+validate.searchRules = () => {
+    const currentYear = new Date().getFullYear() + 1
+
+    return [
+        query("keyword")
+            .optional({ checkFalsy: true })
+            .trim()
+            .isLength({ max: 40 })
+            .withMessage("Keyword must be 40 characters or fewer."),
+
+        query("classification")
+            .optional({ checkFalsy: true })
+            .trim()
+            .isInt({ min: 1 })
+            .withMessage("Classification must be a valid number."),
+
+        query("minPrice")
+            .optional({ checkFalsy: true })
+            .trim()
+            .isFloat({ min: 0 })
+            .withMessage("Minimum price must be 0 or greater."),
+
+        query("maxPrice")
+            .optional({ checkFalsy: true })
+            .trim()
+            .isFloat({ min: 0 })
+            .withMessage("Maximum price must be 0 or greater.")
+            .custom((value, { req }) => {
+                if (!req.query.minPrice || value === "") {
+                    return true
+                }
+                if (parseFloat(value) < parseFloat(req.query.minPrice)) {
+                    throw new Error("Maximum price must be greater than or equal to minimum price.")
+                }
+                return true
+            }),
+
+        query("minYear")
+            .optional({ checkFalsy: true })
+            .trim()
+            .isInt({ min: 1900, max: currentYear })
+            .withMessage(`Minimum year must be between 1900 and ${currentYear}.`),
+
+        query("maxMiles")
+            .optional({ checkFalsy: true })
+            .trim()
+            .isInt({ min: 0 })
+            .withMessage("Maximum miles must be 0 or greater."),
+
+        query("sort")
+            .optional({ checkFalsy: true })
+            .trim()
+            .isIn(["price-asc", "price-desc", "year-desc", "miles-asc"])
+            .withMessage("Please choose a valid sort option."),
+    ]
+}
+
+validate.checkSearchData = async (req, res, next) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        const nav = await utilities.getNav()
+        const classificationData = await invModel.getClassifications()
+
+        return res.render("./inventory/search", {
+            title: "Search Inventory",
+            nav,
+            errors,
+            classifications: classificationData.rows,
+            searchResults: [],
+            resultsCount: 0,
+            hasActiveFilters: Object.entries(req.query).some(([key, value]) => key !== "sort" && value !== ""),
+            displayKeyword: formatSearchKeyword(req.query.keyword || ""),
+            filters: {
+                keyword: req.query.keyword || "",
+                classification: req.query.classification || "",
+                minPrice: req.query.minPrice || "",
+                maxPrice: req.query.maxPrice || "",
+                minYear: req.query.minYear || "",
+                maxMiles: req.query.maxMiles || "",
+                sort: req.query.sort || "price-asc",
+            },
+        })
     }
 
     next()

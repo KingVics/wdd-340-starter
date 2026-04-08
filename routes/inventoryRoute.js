@@ -12,7 +12,12 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildByClassificationDetailsById));
 
 // Route to build the search and filter view
-router.get("/search", utilities.handleErrors(invController.buildSearchView));
+router.get(
+    "/search",
+    validator.searchRules(),
+    validator.checkSearchData,
+    utilities.handleErrors(invController.buildSearchView)
+);
 
 // Route to build inventory classification management view 
 router.get("/",
